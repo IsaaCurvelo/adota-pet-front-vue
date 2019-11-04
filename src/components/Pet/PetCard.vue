@@ -1,5 +1,5 @@
 <template>
-    <v-col>
+    <v-col xs="12" md="3">
         <v-hover v-slot:default="{ hover }">
         <v-card class="mx-auto" :elevation="hover ? 12 : 2">
             <v-img
