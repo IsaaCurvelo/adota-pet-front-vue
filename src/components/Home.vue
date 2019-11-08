@@ -83,5 +83,8 @@ export default {
   components: {
     PetCard,
   },
+  mounted() {
+    
+  }
 }
 </script>
