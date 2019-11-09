@@ -6,7 +6,7 @@
       :elevation="hover ? 12 : 2"
     >
       <v-img
-        :src="animal.imagem"
+        :src="animal | fullImgUrl"
         height="200"
         class="white--text align-end"
       >
@@ -16,11 +16,11 @@
       </v-img>
 
       <v-card-subtitle class="pb-0">
-        {{animal.bairro}}
+        {{animal.endereco.bairro}}
       </v-card-subtitle>
       
       <v-card-text class="text--primary">
-        <div>{{animal.raca}}</div>
+        <div>{{animal.raca.nome}}</div>
       </v-card-text>
       <v-card-actions>
         <v-btn
@@ -44,7 +44,12 @@
 <script>
 export default {
   name: 'PetCard',
-  props: ['animal']
+  props: ['animal'],
+  filters: {
+    fullImgUrl(value) {
+      return `http://localhost:6969${value.foto}`;
+    }
+  }
 }
 </script>
 
