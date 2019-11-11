@@ -65,13 +65,17 @@ export default {
             "Content-Type": "application/json"
           }
         })
-        .then(response => {
-          if (response.status == 200) {
+        .then(
+          response => {
             this.usuario = response.data;
-          } else {
+            this.$store.dispatch("logarUsuario", this.usuario);
+            this.$router.push("/");
+          },
+          error => {
             this.snackbar = true;
+            (error);
           }
-        });
+        );
     }
   }
 };
