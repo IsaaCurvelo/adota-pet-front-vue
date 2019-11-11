@@ -45,7 +45,7 @@ export default {
   data() {
     return {
       showPassword: false,
-      snackbar: true,
+      snackbar: false,
       usuario: {
         email: "",
         senha: ""
