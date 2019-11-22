@@ -1,42 +1,32 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from 'vue'
+import Vuex from 'vuex'
+import services from '@/http'
 
 Vue.use(Vuex);
 
-export const store = new Vuex.Store({
+export default new Vuex.Store({
   state: {
-    usuario: null
+    usuario: {},
+    token:''
   },
   mutations: {
-    // more aboute changing states 
-    logarUsuario(state, payload) {
-      state.usuario = payload;
+    setUsuario(state, payload) {
+      state.usuario = payload
     },
-    deslogarUsuario(state) {
-      state.usuario = null;
+    setToken(state, payload) {
+      state.token = payload
     }
   },
   actions: {
-    // more about logic and firing mutations
-    logarUsuario({commit}, payload) {
-      const usuario = {
-        id: payload.id,
-        nome: payload.nome,
-        email: payload.email,
-        telefone: payload.telefone        
-      }
-
-      // fire mutation
-      commit('logarUsuario', usuario);
+    setUsuario({ commit }, payload) {
+      commit('setUsuario', payload)
     },
-
-    deslogarUsuario({commit}){
-      commit('deslogarUsuario');
-    }
-  },
-  getters: {
-    usuario(state) {
-      return state.usuario;
+    setToken({ commit }, payload) {
+      commit('setToken', payload)
+    },
+    doLogin(context, payload) {
+      console.log(services)
+      return services.login(payload)
     }
   }
 });

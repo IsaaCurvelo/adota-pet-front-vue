@@ -1,33 +1,30 @@
 <template>
   <div>
-    <v-row></v-row>
     <v-card width="400" class="mx-auto mt-5">
       <v-card-title>
         <h1 class="display1">Login</h1>
       </v-card-title>
-      <v-card-text>
-        <form @submit.prevent>
-          <v-text-field label="email" prepend-icon="mdi-account-circle" v-model="usuario.email" />
+      <form @submit.prevent="logar()">
+        <v-card-text>
+          <v-text-field label="email" prepend-icon="mdi-account-circle" v-model="form.email" />
           <v-text-field
             :type="showPassword ? 'text' : 'password'"
             label="senha"
             prepend-icon="mdi-lock"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             @click:append="showPassword = !showPassword"
-            v-model="usuario.senha"
+            v-model="form.senha"
           />
-        </form>
+        </v-card-text>
 
-        <p>{{this.usuario}}</p>
-      </v-card-text>
+        <v-divider />
 
-      <v-divider />
-
-      <v-card-actions>
-        <v-btn @click="logar" color="danger" :disabled="!formIsValid">entrar</v-btn>
-        <v-spacer />
-        <v-btn text to="/registrar" color="info">criar conta</v-btn>
-      </v-card-actions>
+        <v-card-actions>
+          <v-btn type="submit" color="danger" :disabled="!formIsValid">entrar</v-btn>
+          <v-spacer />
+          <v-btn text to="/registrar" color="info">criar conta</v-btn>
+        </v-card-actions>
+      </form>
     </v-card>
     <v-snackbar v-model="snackbar" color="red lighten-1">
       O email ou senha informados estão incorretos.
@@ -38,44 +35,29 @@
 
 
 <script>
-import axios from "axios";
+import { mapActions } from 'vuex'
 
 export default {
   name: "LoginUsuario",
-  data() {
-    return {
-      showPassword: false,
-      snackbar: false,
-      usuario: {
-        email: "",
-        senha: ""
-      }
-    };
-  },
+  data: () => ({
+    form: {
+      email: "",
+      senha: ""
+    },
+    showPassword: false,
+    snackbar: false
+  }),
   computed: {
     formIsValid() {
-      return this.usuario.email !== "" && this.usuario.senha !== "";
+      return this.email !== "" && this.senha !== "";
     }
   },
   methods: {
+    ...mapActions(['doLogin']),
     logar() {
-      axios
-        .post("http://localhost:6969/usuarios/logar", this.usuario, {
-          headers: {
-            "Content-Type": "application/json"
-          }
-        })
-        .then(
-          response => {
-            this.usuario = response.data;
-            this.$store.dispatch("logarUsuario", this.usuario);
-            this.$router.push("/");
-          },
-          error => {
-            this.snackbar = true;
-            (error);
-          }
-        );
+      this.doLogin(this.form).then(res => {
+        console.log(res.data)
+      })
     }
   }
 };
