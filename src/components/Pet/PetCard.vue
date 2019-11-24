@@ -16,7 +16,7 @@
       </v-img>
 
       <v-card-subtitle class="pb-0">
-        {{animal.endereco.bairro}}
+        {{animal.bairro}}
       </v-card-subtitle>
       
       <v-card-text class="text--primary">

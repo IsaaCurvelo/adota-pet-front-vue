@@ -13,6 +13,8 @@
 
 
 <script>
+import axios from 'axios'
+
 import PetCard from "@/components/Pet/PetCard"
 
 export default {
@@ -27,10 +29,14 @@ export default {
   },
   mounted() {
     this.logado = this.$store.usuario != null
-
-    this.$http.get('animais').then(res => {
-      this.animais = res.data.content
+    axios.get('animais')
+    .then(response => {
+      this.animais = response.data.content
     })
+    .catch(e => {
+      console.log(e)
+    })
+    
   }
 };
 </script>
