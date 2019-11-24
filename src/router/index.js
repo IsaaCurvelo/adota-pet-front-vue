@@ -8,9 +8,9 @@ export default new Router({
     { path: '/', component: () => import('@/components/Home') },
     { path: '/logar', component: () => import('@/components/Usuario/LoginUsuario') },
     { path: '/registrar', component: () => import('@/components/Usuario/CadastroUsuario') },
-    { path: '/perfil', component: () => import('@/components/Home') },
-    { path: '/meus-pets', component: () => import('@/components/Usuario/Perfil') },
-    { path: '/*', component: () => import('@/components/Usuario/MeusPets') },
+    { path: '/perfil', component: () => import('@/components/Usuario/Perfil') },
+    { path: '/meus-pets', component: () => import('@/components/Usuario/MeusPets') },
+    { path: '/*', component: () => import('@/components/NotFound') },
   ],
   mode: 'history'
 
