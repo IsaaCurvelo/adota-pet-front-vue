@@ -4,4 +4,8 @@ function todosAnimais() {
   return axios.get("animais")
 }
 
-export { todosAnimais }
+function todosAnimaisPorUsuario(usuario) {
+  return axios.get("animais/usuario/" + usuario.id)
+}
+
+export { todosAnimais, todosAnimaisPorUsuario }

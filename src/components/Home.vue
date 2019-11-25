@@ -1,8 +1,6 @@
 <template>
   <v-container fluid>
     <h1>Stand Virtual</h1>
-    <p v-if="logado">{{this.$store.usuario.nome}}</p>
-    <p>{{logado}}</p>
     <v-fade-transition mode="out-in">
       <v-row v-if="animais.length > 0" key="0">
         <PetCard v-for="animal in animais" v-bind:animal="animal" :key="animal.id" />
@@ -13,30 +11,26 @@
 
 
 <script>
-import axios from 'axios'
+import PetCard from "@/components/Pet/PetCard";
 
-import PetCard from "@/components/Pet/PetCard"
+import { todosAnimais } from "@/services/AnimalService";
 
 export default {
-  data() {
-    return {
-      animais: [],
-      logado: false,
-    };
-  },
+  data: () => ({
+    animais: [],
+    logado: false
+  }),
   components: {
     PetCard
   },
   mounted() {
-    this.logado = this.$store.usuario != null
-    axios.get('animais')
-    .then(response => {
-      this.animais = response.data.content
-    })
-    .catch(e => {
-      console.log(e)
-    })
-    
+    todosAnimais()
+      .then(response => {
+        this.animais = response.data.content;
+      })
+      .catch(e => {
+        console.log(e);
+      });
   }
 };
 </script>

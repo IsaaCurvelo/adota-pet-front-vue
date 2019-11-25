@@ -6,7 +6,12 @@
       </v-card-title>
       <form @submit.prevent="submit()">
         <v-card-text>
-          <v-text-field type="email" label="email" prepend-icon="mdi-account-circle" v-model="form.email" />
+          <v-text-field
+            type="email"
+            label="email"
+            prepend-icon="mdi-account-circle"
+            v-model="form.email"
+          />
           <v-text-field
             :type="showPassword ? 'text' : 'password'"
             label="senha"
@@ -35,39 +40,40 @@
 
 
 <script>
-import { mapActions } from "vuex"
+import { mapActions } from "vuex";
 
-import { logar } from '@/services/UsuarioService'
+import { logar } from "@/services/UsuarioService";
 
 export default {
   name: "LoginUsuario",
   data: () => ({
     form: {
-      email: '',
-      senha: ''
+      email: "",
+      senha: ""
     },
-    errorMessage: '',
+    errorMessage: "",
     showPassword: false,
     snackbar: false,
     snackbarTimeOut: 2500
   }),
   computed: {
     formIsValid() {
-      return this.form.email !== '' && this.form.senha !== '';
+      return this.form.email !== "" && this.form.senha !== "";
     }
   },
   methods: {
     ...mapActions(["doLogin"]),
 
     submit() {
-      logar(this.form).then(response => {
-        this.doLogin(response.data)
-        this.$router.push("/")
-      })
-      .catch(err =>{
-        this.snackbar = true
-        this.errorMessage = err
-      })
+      logar(this.form)
+        .then(response => {
+          this.doLogin(response.data);
+          this.$router.push("/");
+        })
+        .catch(err => {
+          this.snackbar = true;
+          this.errorMessage = err;
+        });
     }
   }
 };

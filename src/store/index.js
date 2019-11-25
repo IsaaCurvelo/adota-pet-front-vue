@@ -26,5 +26,10 @@ export default new Vuex.Store({
     doLogin({ dispatch }, payload) {
       dispatch('setUsuario', payload)
     }
+  },
+  getters : {
+    getUsuarioLogado: state => {
+      return state.usuario
+    }
   }
 });

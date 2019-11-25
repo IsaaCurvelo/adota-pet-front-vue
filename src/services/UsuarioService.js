@@ -1,15 +1,15 @@
 import axios from './config'
 
-function logar(payload) {
-  return axios.post("usuarios/logar", payload, {
+function logar(usuario) {
+  return axios.post("usuarios/logar", usuario, {
     headers: {
       "Content-Type": "application/json"
     }
   })
 }
 
-function cadastrar(payload) {
-  return axios.post("usuarios", payload, { 
+function cadastrar(usuario) {
+  return axios.post("usuarios", usuario, { 
     headers: {
       "Content-Type": "application/json"
     }
