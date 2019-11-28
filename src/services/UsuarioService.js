@@ -16,4 +16,21 @@ function cadastrar(usuario) {
   })
 }
 
-export { logar, cadastrar }
+function alterarSenha(usuario) {
+  return axios.put("usuarios/alterar-senha/" + usuario.id, usuario, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+}
+
+
+function alterarUsuario(usuario) {
+  return axios.put("usuarios/" + usuario.id, usuario, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+}
+
+export { logar, cadastrar, alterarSenha, alterarUsuario }

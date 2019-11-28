@@ -9,21 +9,21 @@
         <v-list dense>
           <v-list-item>
             <v-list-item-content>nome completo:</v-list-item-content>
-            <v-text-field :v-model="usuario.nome" :disabled="!editNome" />
+            <v-text-field v-model="form.nome" :disabled="!editNome" />
             <v-btn text @click="editNome = !editNome">
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
           </v-list-item>
           <v-list-item>
             <v-list-item-content>email:</v-list-item-content>
-            <v-text-field :v-model="usuario.email" :disabled="!editEmail" />
+            <v-text-field v-model="form.email" :disabled="!editEmail" />
             <v-btn text @click="editEmail = !editEmail">
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
           </v-list-item>
           <v-list-item>
             <v-list-item-content>telefone:</v-list-item-content>
-            <v-text-field :v-model="usuario.telefone" :disabled="!editTelefone" />
+            <v-text-field v-model="form.telefone" :disabled="!editTelefone" />
             <v-btn text @click="editTelefone = !editTelefone">
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
@@ -35,50 +35,97 @@
           <v-icon>mdi-content-save</v-icon>salvar alterações
         </v-btn>
         <v-spacer />
-        <v-btn color="error">
+        <v-btn color="error" @click.stop="dialog = true">
           <v-icon>mdi-skull-crossbones</v-icon>alterar a senha
         </v-btn>
       </v-card-actions>
     </v-card>
+    <v-dialog v-model="dialog" persistent max-width="600px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Digite a nova senha</span>
+        </v-card-title>
+        <v-form @submit.prevent="alterar()">
+          <v-card-text>
+            <v-text-field required v-model="novaSenha"></v-text-field>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn color="red " type="submit" text>alterar</v-btn>
+            <v-btn text @click="dialog = false; novaSenha=''">Fechar</v-btn>
+          </v-card-actions>
+        </v-form>
+      </v-card>
+    </v-dialog>
     <v-snackbar v-model="snackbar" :color="color" :timeout="snackbarTimeOut">
-      {{ message }}
+      {{ mensagem }}
       <v-btn color="white" text @click="snackbar = false">Fechar</v-btn>
     </v-snackbar>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { alterarSenha, alterarUsuario } from "@/services/UsuarioService";
+import { mapState, mapActions } from "vuex";
 
 export default {
   data: () => ({
-    usuario: {},
+    form: {
+      nome: "",
+      email: "",
+      telefone: "",
+    },
     editNome: false,
     editEmail: false,
     editTelefone: false,
+    novaSenha: "",
+    mensagem: "",
     snackbarTimeOut: 3000,
-		snackbar: false,
-		color: '',
-		message: ''
+    snackbar: false,
+    dialog: false,
+    color: "",
+    message: ""
   }),
   mounted() {
-    this.usuario = this.getUsuarioLogado();
+    this.form.nome = this.usuario.nome
+    this.form.email = this.usuario.email
+    this.form.telefone = this.usuario.telefone
+  },
+  computed: {
+    ...mapState(["usuario"])
   },
   methods: {
-    ...mapGetters(["getUsuarioLogado"]),
-    salvarAlteracoes() {
-			const usuarioLogado = this.getUsuarioLogado()
-			console.log(usuarioLogado)
-			console.log(this.usuario)
-      if (JSON.stringify(usuarioLogado) === JSON.stringify(this.usuario)) {
-				this.color = 'red lighten-1'
-				this.message = 'não houve nenhuma alteração nas informações do usuário'
-        this.snackbar = true;
-      } else {
-				this.color = 'teal accent-4'
-				this.message = 'alterações efetuadas com sucesso'
-				this.snackbar = true;
-			}
+    ...mapActions(["doLogin"]),
+
+    showSnackBar(color, mensagem){
+      this.mensagem = mensagem
+      this.color = color
+      this.snackbar = true
+    },
+    async salvarAlteracoes() {
+      this.form.id = this.usuario.id
+
+      await alterarUsuario(this.form)
+        .then(response => {
+          this.doLogin(response.data)
+          this.showSnackBar('teal accent-4', "Informações alteradas com sucesso!")
+        })
+        .catch(err => {
+          this.showSnackBar('red lighten-1', err)
+        })
+      this.editNome = this.editEmail = this.editTelefone = false
+    },
+    async alterar() {
+      this.usuario.senha = this.novaSenha;
+      await alterarSenha(this.usuario)
+        .then(response => {
+          this.doLogin(response.data)
+          this.showSnackBar('teal accent-4', "Senha alterada com sucesso!")
+        })
+        .catch(err => {
+          this.showSnackBar('red lighten-1', err)
+        })
+      this.dialog = false
     }
   }
 };

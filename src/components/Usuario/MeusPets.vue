@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 import { todosAnimaisPorUsuario } from "@/services/AnimalService";
 
@@ -21,18 +21,16 @@ import PetCard from "@/components/Pet/PetCard";
 
 export default {
   data: () => ({
-    usuario: {},
     animais: [],
     errorMessage: ""
   }),
   components: {
     PetCard
   },
-  methods: {
-    ...mapGetters(["getUsuarioLogado"])
+  computed: {
+    ...mapState(["usuario"])
   },
   mounted() {
-    this.usuario = this.getUsuarioLogado()
     todosAnimaisPorUsuario(this.usuario)
       .then(res => {
         this.animais = res.data;
