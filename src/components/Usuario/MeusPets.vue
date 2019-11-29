@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <h2>Meus Pets</h2>
-    <v-btn large color="success">
+    <v-btn large color="success" to="/meus-pets/novo">
       <v-icon>mdi-plus</v-icon>cadastrar novo
     </v-btn>
     <v-fade-transition mode="out-in">
