@@ -40,9 +40,9 @@
 
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from "vuex"
 
-import { logar } from "@/services/UsuarioService";
+import { logar } from "@/services/UsuarioService"
 
 export default {
   name: "LoginUsuario",
@@ -67,12 +67,12 @@ export default {
     submit() {
       logar(this.form)
         .then(response => {
-          this.doLogin(response.data);
-          this.$router.push("/");
+          this.doLogin(response.data)
+          this.$router.push("/")
         })
         .catch(err => {
-          this.snackbar = true;
-          this.errorMessage = err;
+          this.snackbar = true
+          this.errorMessage = err
         });
     }
   }

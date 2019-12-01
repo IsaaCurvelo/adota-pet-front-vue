@@ -11,9 +11,9 @@
 
 
 <script>
-import PetCard from "@/components/Pet/PetCard";
+import PetCard from "@/components/Pet/PetCard"
 
-import { todosAnimais } from "@/services/AnimalService";
+import { todosAnimais } from "@/services/AnimalService"
 
 export default {
   data: () => ({

@@ -46,9 +46,9 @@
 
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from "vuex"
 
-import { cadastrar } from "@/services/UsuarioService";
+import { cadastrar } from "@/services/UsuarioService"
 
 export default {
   name: "LoginUsuario",
@@ -86,15 +86,15 @@ export default {
           this.doLogin(response.data);
           
           this.color = 'teal accent-4'
-          this.snackbar = true;
-          this.message = "Conta criada com sucesso! Redirecionando para a página inicial...";
+          this.snackbar = true
+          this.message = "Conta criada com sucesso! Redirecionando para a página inicial..."
 
-          setTimeout( () => this.$router.push("/"), this.snackbarTimeOut);
+          setTimeout( () => this.$router.push("/"), this.snackbarTimeOut)
         })
         .catch(err => {
           this.color = 'red lighten-1'
-          this.snackbar = true;
-          this.message = err;
+          this.snackbar = true
+          this.message = err
         });
     }
   }
