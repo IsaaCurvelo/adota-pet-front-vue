@@ -59,6 +59,10 @@
             </v-col>
           </v-row>
 
+          <v-file-input accept="image/jpeg" label="foto do pet">
+
+          </v-file-input>
+
           <v-chip color="success">
             <v-avatar left class="green darken-3">3</v-avatar>
             endereço
