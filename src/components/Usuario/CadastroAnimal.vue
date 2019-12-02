@@ -14,7 +14,7 @@
           </v-chip>
 
           <v-combobox
-            style="margin-top:25px"
+            style="margin-top:30px"
             @input="selecionaEspecie"
             outlined
             dense
