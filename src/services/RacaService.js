@@ -8,4 +8,12 @@ function todasRacasPorEspecie(especie) {
   return axios.get("racas/especie/" + especie.id)
 }
 
-export { todasRacas, todasRacasPorEspecie }
+function cadastrar (raca) {
+  return axios.post("racas", raca, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+}
+
+export { todasRacas, todasRacasPorEspecie, cadastrar }

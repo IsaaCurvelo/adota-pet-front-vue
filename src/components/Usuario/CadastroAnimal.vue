@@ -43,10 +43,10 @@
           </v-chip>
 
 
-          <v-text-field type="text" label="nome" />
+          <v-text-field type="text" label="nome" v-model="form.nome" />
           <v-row>
             <v-col>
-              <v-text-field type="text" label="idade" width="50%" />
+              <v-text-field type="text" label="idade" width="50%" v-model="form.idade"/>
             </v-col>
             <v-col>
               <v-radio-group v-model="form.sexo">
@@ -59,9 +59,7 @@
             </v-col>
           </v-row>
 
-          <v-file-input accept="image/jpeg" label="foto do pet">
-
-          </v-file-input>
+          <v-file-input v-model="imagem" accept="image/jpeg" label="foto do pet" dense outlined/>
 
           <v-chip color="success">
             <v-avatar left class="green darken-3">3</v-avatar>
@@ -69,10 +67,10 @@
             <v-icon right>mdi-map-marker</v-icon>
           </v-chip>
 
-          <v-text-field type="text" label="logradouro" />
-          <v-text-field type="text" label="cep" />
-          <v-text-field type="text" label="bairro" />
-          <v-text-field type="text" label="numero" />
+          <v-text-field type="text" label="logradouro" v-model="form.logradouro" />
+          <v-text-field type="text" label="cep" v-model="form.cep" />
+          <v-text-field type="text" label="bairro" v-model="form.bairro" />
+          <v-text-field type="text" label="numero" v-model="form.numero" />
         </v-card-text>
 
         <v-card-actions>
@@ -94,6 +92,12 @@
         </v-card-actions>
       </form>
     </v-card>
+    
+    <v-snackbar top vertical v-model="snackbarSucesso" color="success" :timeout="snackbarTimeOut">
+      Animal cadastrado com sucesso! Redirecionando para meus pets...
+      <v-btn color="white" text @click="snackbar = false">Fechar</v-btn>
+    </v-snackbar>
+
     <v-snackbar v-model="snackbar" color="info" :timeout="snackbarTimeOut">
       Se não aparecer a espécie ou a raça que deseja cadastrar, pode apenas digitar que o
       AdotaPET vai cadastrar para você.
@@ -103,8 +107,11 @@
 </template>
 
 <script>
-import { todasEspecies } from "@/services/EspecieService";
-import { todasRacasPorEspecie } from "@/services/RacaService";
+import { mapState } from "vuex";
+
+import * as especieService from "@/services/EspecieService"
+import * as racaService from "@/services/RacaService"
+import * as animalService from "@/services/AnimalService"
 
 export default {
   data: () => ({
@@ -120,17 +127,21 @@ export default {
       bairro: "",
       numero: ""
     },
+    imagem: null,
     especieSelecionada: {},
     racaSelecionada: {},
     especies: [],
     racas: [],
     snackbar: true,
+    snackbarSucesso: false,
     snackbarTimeOut: 7000
   }),
-
+  computed: {
+    ...mapState(["usuario"])
+  },
   methods: {
     buscaRacas(especie) {
-      todasRacasPorEspecie(especie)
+      racaService.todasRacasPorEspecie(especie)
         .then(res => {
           this.racas = res.data;
           if (this.racas.length > 0) {
@@ -154,13 +165,44 @@ export default {
       }
     },
 
-    submit() {
-      console.log(this.especieSelecionada);
+    async submit() {
+      if (!this.racaSelecionada.id) {
+        console.log("nao tem a raca")
+        if(!this.especieSelecionada.id) {
+          this.especieSelecionada = {nome: this.especieSelecionada}
+          console.log("nem a especie")
+        }
+
+        await racaService.cadastrar({nome: this.racaSelecionada, especie: this.especieSelecionada})
+        .then( response => {
+          this.racaSelecionada = response.data
+          console.log("cadastrou")
+        })
+        .catch (error => {
+          console.log(error)
+        })
+      }
+
+      this.form.raca = this.racaSelecionada
+      this.form.doador = this.usuario
+      let formData =  new FormData();
+      formData.append('imagem', this.imagem)
+      formData.append('animal', JSON.stringify(this.form))
+      
+      animalService.cadastrar(formData)
+      .then(res => {
+        this.snackbarSucesso = true
+        console.log(res)
+        setTimeout( () => this.$router.push("/"), this.snackbarTimeOut)
+      })
+      .catch( err => {
+        console.log(err)
+      })
     }
   },
 
   async mounted() {
-    await todasEspecies()
+    await especieService.todasEspecies()
       .then(response => {
         this.especies = response.data;
 

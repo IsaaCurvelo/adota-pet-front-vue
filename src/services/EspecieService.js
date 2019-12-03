@@ -4,4 +4,12 @@ function todasEspecies() {
   return axios.get("especies")
 }
 
-export { todasEspecies }
+function cadastrar (especie) {
+  return axios.post("especies", especie, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+}
+
+export { todasEspecies, cadastrar }
