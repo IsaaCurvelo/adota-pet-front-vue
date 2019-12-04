@@ -12,6 +12,7 @@ const router =  new Router({
     { path: '/perfil', component: () => import('@/components/Usuario/Perfil'), name: 'perfil' },
     { path: '/meus-pets', component: () => import('@/components/Usuario/MeusPets'), name: 'meusPets' },
     { path: '/meus-pets/novo', component: () => import('@/components/Usuario/CadastroAnimal'), name: 'cadastrarPet' },
+    { path: '/meus-pets/confirmacoes', component: () => import('@/components/Usuario/ConfirmacaoAdocao'), name: 'confirmacoes' },
     { path: '/*', component: () => import('@/components/NotFound'), name: 'notFound' },
   ],
   mode: 'history'

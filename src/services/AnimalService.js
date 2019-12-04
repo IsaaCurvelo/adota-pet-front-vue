@@ -16,4 +16,12 @@ function cadastrar(formData) {
   })
 }
 
-export { todosAnimais, todosAnimaisPorUsuario, cadastrar }
+function atualizar(animal){
+  return axios.put("animais/" + animal.id, animal, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+}
+
+export { todosAnimais, todosAnimaisPorUsuario, cadastrar, atualizar }

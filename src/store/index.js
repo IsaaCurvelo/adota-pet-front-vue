@@ -17,10 +17,17 @@ export default new Vuex.Store({
     setUsuario({ commit }, payload) {
       commit('setUsuario', payload)
     },
+    
     doLogin({ dispatch }, payload) {
       dispatch('setUsuario', payload)
       local.setUsuarioLocalStorage(payload)
     },
+
+    doLogout( { commit }) {
+      local.deleteUsuarioLocalStorage()
+      commit('setUsuario', null)
+    },
+
     checkUsuarioLogado({ dispatch, state }) {
       if (state.usuario) {
         console.log("[checkUsuarioLogado] -> tem usuario no state")

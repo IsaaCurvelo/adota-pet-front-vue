@@ -1,7 +1,7 @@
 import store from '../store'
 
 export default async (to, from, next) => {
-  if (to.name !== 'logar' && to.name !== 'home' && to.name !== 'registrar'
+  if (to.name !== 'logar' && to.name !== 'registrar' && to.name !== 'home'
     && !store.getters['isLogged']) {
     try {
       await store.dispatch('checkUsuarioLogado')

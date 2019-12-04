@@ -1,10 +1,17 @@
 <template>
   <div>
     <v-card width="600" class="mx-auto mt-5">
-      <v-card-title>
-        <h4 class="display1">Meu perfil</h4>
+
+      <v-card-title class="cyan darken-1">
+          <span class="headline white--text">Meu Perfil</span>
+          <v-spacer></v-spacer>
+          <v-btn dark icon @click="sair">
+            <v-icon>mdi-exit-to-app</v-icon>
+          </v-btn>
       </v-card-title>
+
       <v-divider></v-divider>
+
       <v-card-text>
         <v-list dense>
           <v-list-item>
@@ -32,7 +39,7 @@
       </v-card-text>
       <v-card-actions>
         <v-btn @click="salvarAlteracoes" color="success">
-          <v-icon>mdi-content-save</v-icon>salvar alterações
+          <v-icon>mdi-content-save</v-icon>salvar
         </v-btn>
         <v-spacer />
         <v-btn color="error" @click.stop="dialog = true">
@@ -95,13 +102,14 @@ export default {
     ...mapState(["usuario"])
   },
   methods: {
-    ...mapActions(["doLogin"]),
+    ...mapActions(["doLogin", "doLogout"]),
 
     showSnackBar(color, mensagem){
       this.mensagem = mensagem
       this.color = color
       this.snackbar = true
     },
+
     async salvarAlteracoes() {
       this.form.id = this.usuario.id
 
@@ -115,6 +123,7 @@ export default {
         })
       this.editNome = this.editEmail = this.editTelefone = false
     },
+
     async alterar() {
       this.usuario.senha = this.novaSenha;
       await alterarSenha(this.usuario)
@@ -126,6 +135,10 @@ export default {
           this.showSnackBar('red lighten-1', err)
         })
       this.dialog = false
+    },
+    sair() {
+      this.doLogout()
+      this.$router.push("/")
     }
   }
 };

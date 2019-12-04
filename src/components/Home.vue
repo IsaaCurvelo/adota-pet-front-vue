@@ -26,7 +26,7 @@ export default {
   mounted() {
     todosAnimais()
       .then(response => {
-        this.animais = response.data.content;
+        this.animais = response.data;
       })
       .catch(e => {
         console.log(e);
