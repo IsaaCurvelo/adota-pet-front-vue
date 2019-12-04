@@ -121,7 +121,7 @@ export default {
       sexo: "F",
       paraAdocao: true,
       raca: {},
-      doador: {},
+      dono: {},
       logradouro: "",
       cep: "",
       bairro: "",
@@ -184,7 +184,7 @@ export default {
       }
 
       this.form.raca = this.racaSelecionada
-      this.form.doador = this.usuario
+      this.form.dono = this.usuario
       let formData =  new FormData();
       formData.append('imagem', this.imagem)
       formData.append('animal', JSON.stringify(this.form))
