@@ -10,6 +10,8 @@
           v-on:adotar="mostrarDialog(animal)"
         />
       </v-row>
+
+      <p v-else>Aninda não existem animais cadastrados no AdotaPET</p>
     </v-fade-transition>
 
     <v-dialog v-model="dialog" persistent max-width="600px">
@@ -86,7 +88,7 @@ export default {
     logado: false,
     dialog: false,
     snackbar: false,
-    snackbarTimeout: 5000
+    snackbarTimeout: 7000
   }),
   components: {
     PetCard
@@ -116,6 +118,7 @@ export default {
       cadastrar(this.form)
         .then(res => {
           this.snackbar = true;
+          this.dialog = false;
         })
         .catch(err => {
           console.log(err)

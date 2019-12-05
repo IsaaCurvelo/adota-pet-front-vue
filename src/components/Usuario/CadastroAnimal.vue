@@ -195,7 +195,7 @@ export default {
       .then(res => {
         this.snackbarSucesso = true
         console.log(res)
-        setTimeout( () => this.$router.push("/"), this.snackbarTimeOut)
+        setTimeout( () => this.$router.push("/meus-pets"), this.snackbarTimeOut)
       })
       .catch( err => {
         console.log(err)
