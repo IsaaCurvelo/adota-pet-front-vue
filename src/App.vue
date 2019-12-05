@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "App",
@@ -46,8 +46,16 @@ export default {
   data: () => ({
     drawer: false
   }),
+
+  async mounted(){
+    if (!this.isLogged) {
+      await this.checkUsuarioLogado()
+    }
+  },
+
   computed: {
     ...mapGetters(["isLogged"]),
+    ...mapActions(['checkUsuarioLogado']),
 
     menuItems() {
       let menuItems = [

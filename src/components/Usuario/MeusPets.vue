@@ -9,7 +9,7 @@
       </v-col>
       <v-col xs="12" md="3" lg="2">
         <v-btn large color="info" to="/meus-pets/confirmacoes" style="width: 100%">
-          <v-icon>mdi-cat</v-icon>confirmar doação
+          <v-icon>mdi-cat</v-icon>confirmar doações
         </v-btn>
       </v-col>
     </v-row>

@@ -23,6 +23,7 @@
             :items="especies"
             item-text="nome"
             item-value="id"
+            required
           />
           <v-combobox
             append-icon="mdi-information-outline"
@@ -34,6 +35,7 @@
             :items="racas"
             item-text="nome"
             item-value="id"
+            required
           />
           
           <v-chip color="info">
@@ -43,10 +45,10 @@
           </v-chip>
 
 
-          <v-text-field type="text" label="nome" v-model="form.nome" />
+          <v-text-field type="text" label="nome" v-model="form.nome" required />
           <v-row>
             <v-col>
-              <v-text-field type="text" label="idade" width="50%" v-model="form.idade"/>
+              <v-text-field type="text" label="idade" width="50%" v-model="form.idade" required/>
             </v-col>
             <v-col>
               <v-radio-group v-model="form.sexo">
@@ -59,7 +61,7 @@
             </v-col>
           </v-row>
 
-          <v-file-input v-model="imagem" accept="image/jpeg" label="foto do pet" dense outlined/>
+          <v-file-input v-model="imagem" accept="image/jpeg" label="foto do pet" dense outlined required/>
 
           <v-chip color="success">
             <v-avatar left class="green darken-3">3</v-avatar>
@@ -67,10 +69,10 @@
             <v-icon right>mdi-map-marker</v-icon>
           </v-chip>
 
-          <v-text-field type="text" label="logradouro" v-model="form.logradouro" />
-          <v-text-field type="text" label="cep" v-model="form.cep" />
-          <v-text-field type="text" label="bairro" v-model="form.bairro" />
-          <v-text-field type="text" label="numero" v-model="form.numero" />
+          <v-text-field type="text" label="logradouro" v-model="form.logradouro" required/>
+          <v-text-field type="text" label="cep" v-model="form.cep" required/>
+          <v-text-field type="text" label="bairro" v-model="form.bairro" required/>
+          <v-text-field type="text" label="numero" v-model="form.numero" required/>
         </v-card-text>
 
         <v-card-actions>
@@ -134,7 +136,7 @@ export default {
     racas: [],
     snackbar: true,
     snackbarSucesso: false,
-    snackbarTimeOut: 7000
+    snackbarTimeOut: 4000
   }),
   computed: {
     ...mapState(["usuario"])

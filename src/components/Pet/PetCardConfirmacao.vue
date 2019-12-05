@@ -1,56 +1,81 @@
 <template>
-  <v-col xs="12" md="3" lg="2">
+  <v-col xs="12" md="12" lg="6">
     <v-hover v-slot:default="{ hover }">
-    <v-card 
-      class="mx-auto" 
-      :elevation="hover ? 12 : 2"
-    >
-      <v-img
-        :src="animal | fullImgUrl"
-        height="200"
-        class="white--text align-end"
-      >
-        <v-card-title>
-          <div class="text-example">{{animal.nome}}</div>
-        </v-card-title>
-      </v-img>
+      <v-card class="">
+        <v-container >
+          <v-row>
+            <v-col cols="auto">
+              <v-img height="250" width="250" :src="adocao | fullImgUrl"></v-img>
+            </v-col>
 
-      <v-card-subtitle class="pb-0">
-        {{animal.bairro}}
-      </v-card-subtitle>
-      
-      <v-card-text class="text--primary">
-        <div>{{animal.raca.nome}}</div>
-      </v-card-text>
-      <v-card-actions>
-        <v-btn
-          color="orange"
-          text
-        >
-          detalhes
-        </v-btn>
-        <v-btn
-          color="green"
-          text
-        >
-          adotar
-        </v-btn>
-      </v-card-actions>
-    </v-card>
+            <v-col cols="" class="text-left pl-0">
+              <v-row class="flex-column ma-0 fill-height" justify="center">
+                <v-list>
+                  <v-list-item>
+                    <v-list-item-icon>
+                      <v-icon color="indigo">mdi-paw</v-icon>
+                    </v-list-item-icon>
+
+                    <v-list-item-content>
+                      <v-list-item-title>{{ adocao.animal.nome }}</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+
+                  <v-divider inset></v-divider>
+
+                  <v-list-item>
+                    <v-list-item-icon>
+                      <v-icon color="indigo">mdi-account</v-icon>
+                    </v-list-item-icon>
+
+                    <v-list-item-content>
+                      <v-list-item-title>{{ adocao.adotante.nome }}</v-list-item-title>
+                      <v-list-item-subtitle>{{ adocao | contatoAdotante }}</v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+
+                  <v-list-item>
+                    <v-list-item-action></v-list-item-action>
+
+                    <v-list-item-content>
+                      <v-list-item-title>{{ adocao | ruaNumero }}</v-list-item-title>
+                      <v-list-item-subtitle>{{ adocao | cepBairro }}</v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item>
+                    <v-btn text @click="$emit('recusar-adocao', adocao)" color="red">recusar adoção</v-btn>
+                    <v-spacer />
+                    <v-btn text @click="$emit('confirmar-adocao', adocao)" color="success">confirmar adoção</v-btn>
+                  </v-list-item>
+                </v-list>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-card>
     </v-hover>
   </v-col>
 </template>
 
 <script>
 export default {
-  name: 'PetCard',
-  props: ['animal'],
+  name: "PetCardConfirmacao",
+  props: ["adocao"],
   filters: {
     fullImgUrl(value) {
-      return `http://localhost:6969${value.foto}`;
+      return `http://localhost:6969${value.animal.foto}`;
+    },
+    contatoAdotante(value) {
+      return `${value.adotante.email} - ${value.adotante.telefone}`;
+    },
+    ruaNumero(value) {
+      return `${value.logradouro}, ${value.numero}`;
+    },
+    cepBairro(value) {
+      return `${value.cep}, ${value.bairro}`;
     }
   }
-}
+};
 </script>
 
 <style lang="sass">

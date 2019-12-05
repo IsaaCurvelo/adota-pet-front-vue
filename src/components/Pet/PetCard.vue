@@ -1,5 +1,5 @@
 <template>
-  <v-col xs="12" md="3" lg="3">
+  <v-col xs="12" md="3" lg="2">
     <v-hover v-slot:default="{ hover }">
       <v-card class="mx-auto" :elevation="hover ? 12 : 2">
         <v-img :src="animal | fullImgUrl" height="200" class="white--text align-end">
@@ -14,7 +14,7 @@
         </div>
 
         <v-card-actions>
-          <v-btn color="green" text>adotar</v-btn>
+          <v-btn v-if="usuario.id !== animal.dono.id" text @click="$emit('adotar', animal)" color="green">adotar</v-btn>
           <v-spacer></v-spacer>
 
           <v-btn icon @click="show = !show">
@@ -73,6 +73,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "PetCard",
   props: ["animal"],
@@ -81,7 +83,9 @@ export default {
       show: false
     };
   },
-  computed: {},
+  computed: {
+    ...mapState(["usuario"])
+  },
   filters: {
     fullImgUrl(value) {
       return `http://localhost:6969${value.foto}`;

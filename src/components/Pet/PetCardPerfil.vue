@@ -1,5 +1,5 @@
 <template>
-  <v-col xs="12" md="3" lg="3">
+  <v-col xs="12" md="3" lg="2">
     <v-hover v-slot:default="{ hover }">
       <v-card class="mx-auto" :elevation="hover ? 12 : 2">
         <v-img :src="animal | fullImgUrl" height="200" class="white--text align-end">
@@ -32,7 +32,7 @@
 import { atualizar } from "@/services/AnimalService";
 
 export default {
-  name: "PetCard",
+  name: "PetCardPerfil",
   props: ["animal"],
   filters: {
     fullImgUrl(value) {
